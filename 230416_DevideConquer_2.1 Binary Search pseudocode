@@ -1,0 +1,19 @@
+// Binary Search - 수두코드
+//분할: 반으로 나눠서 찾고자하는 x가 mid보다 작으면 오른쪽을, 크면 왼쪽을 버림
+
+index location (index low, index high) {	//재귀호출로 변하지 않는 상수 변수는 넘기지 않음. 인덱스만!!!
+	if (low > high)   //역전되면
+		return 0;
+	else {              //아직 보지않은게 남아있음.
+		mid = (low + high)
+		if (x == S[mid])
+			return mid;
+		else if (x < S[mid])			//좌측 - 넘겨주는 매개변수값 바꿔가며
+			return location(low, mid-1);
+		else					//우측 - 넘겨주는 매개변수값 바꿔가며
+			return location(mid+1, high);
+	}
+}
+		
+//호출
+locationout = location(1,n)		
