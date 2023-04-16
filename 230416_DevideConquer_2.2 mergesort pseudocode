@@ -1,0 +1,58 @@
+//합병정렬(mergesort)
+
+void merge (int h, int m, const keytype U[], const keytype V[], const keytype S[]) {
+  index i=1, j=1, k=1;
+  
+  while (i < = h && j <= m) {
+    if (U[i] < V[i]) {
+      S[k] = U[i];
+      i++;
+    }
+    else {
+      S[k] = V[j];
+      j++;
+    }
+    k++
+    
+    if (i>h)
+      copy V[j] through V[m]  to  S[k] through S[h+m];
+      copy U[i] through U[h]  to  S[k] through S[h+m];
+}
+
+
+두 개의 정렬된 배열 U와 V를 받아, 크기가 h와 m인 배열 S에 병합.
+인덱스 i,j,k는 배열 U,V,S의 인덱스를 가리킴. 
+작은걸 S에 옮겨가게하는 if, else:  while 루프에서 i와 j가 각각 h와 m보다 작은 동안 U[i]와 V[j]를 비교하여 S[k]에 작은 값을 복사.
+while뤂 나오고, 남은 것을 뒤에 갖다 붙이기 (남은 것 S로 다 털기):  U 또는 V 중 하나의 배열이 모두 S에 복사되면, 나머지 배열의 나머지 요소들을 S의 끝에 복사.
+
+
+//---핵심--------------------------------------------------------------
+void mergesort (int n, keytype S[]) {
+  const int h = ⌊n/2⌋, m=n-h;
+  keytype U[1 .. h], V[1 .. m];
+  
+  copy S[1] through S[h]  to  U[1] through U[h]
+  copy S[h+1] through S[n]  to  V[1] through V[h]
+  
+  mergesort(h,U);
+  mergesort(m,V);
+  merge(h,m, U,V,S);   //size, 배열3
+}
+
+
+정렬 안된 크기n인 배열S 받아서 -> 정렬시킴
+배열S를 n/2, n/2 크기인 2개의 배열 U, V로 분할
+mergesort 함수를 재귀적으로 호출하여 U와 V를 정렬
+merge 함수를 호출하여 U와 V를 병합하고 정렬된 배열 S를 생성
+ 
+
+ 
+/* memo
+시간 복잡도 O(n log n):  각 재귀 호출에서 크기가 n/2로 줄어들기 때문
+
+- 안정성 & 제자리성 ---> 안정정렬(Stable sort)O, 제자리정렬X(임시배열 위해 추가M사용)
+  동일한 원소에 대하여 정렬 후 본래의 순서가 유지되기 때문에 안정정렬(Stable sort)임. 
+    정렬된 두 배열에 있는 원소들을 비교하는 과정에서 같으면 -> 왼쪽에 있는 수를 먼저 가져오기 때문에 순서가 유지된다.
+    ex) [3, 2, 1, 2] --(합병정렬)--> [1, 2, 2, 3]. 이때, 두번째 2와 세번째 2가 정렬 이전의 상대적인 위치와 동일하게 유지
+  정렬 중, 별도의 추가적인 메모리(임시배열)을 사용하므로 제자리정렬(In-place sort)이 아님. 
+*/
