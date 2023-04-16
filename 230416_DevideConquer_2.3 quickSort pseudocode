@@ -1,0 +1,59 @@
+//빠른정렬(quicksort) : 교재 p64참
+//분할교환정렬(partition exchange sort) : 피벗 기준 크작으로 원소 맞바꿔서 파티션 
+
+partition(index low, index high, index& pivotpoint) {
+  index i, j;
+  keytype pivotitem = S[low]    // 1번째 값을 pivot으로 선택
+  for (i=low+1; i<=high; i++)
+    if (S[i] < pivotitem) {
+      j++;
+      exchange S[i] and S[j]          // 작은 값과 큰 값의 위치를 교환
+    }
+  pivotpoint=j;                       // pivot의 위치 저장
+  exchange S[low] and S[pivotpoint];  // pivot을 첫 번째 위치로 이동
+
+
+//---핵심-----------------------------------------------------
+void quicksort(index low, index high) {
+  indext pivotpoint;
+  
+  if (hight>low) {                      //low==high면, trivially sort
+    partition(low, high, pivotpoint);   //pivot 기준 크작 나
+    quicksort(low, pivotpoint-1);
+    quicksort(pivotpoint+1, high);
+  }
+}
+
+
+
+ex1)
+배열 S = [5, 9, 3, 7, 6, 8, 1, 4, 2] -> pivot을 5로 선택하여 partition 함수를 수행
+  pivot을 5로 선택. 배열 S = [5, 9, 3, 7, 6, 8, 1, 4, 2]
+  pivot을 기준으로 작은 값은 왼쪽으로, 큰 값은 오른쪽으로 이동. 이때, 작은 값과 큰 값의 위치를 교환. 배열 S = [2, 3, 1, 4, '5', 8, 6, 7, 9]
+  pivot의 위치를 기억 (pivot의 위치는 4)
+  pivot의 위치를 반환.
+  
+ex2)
+[7, 4, 9, 2, 8, 5]
+  초기 호출: quicksort(0, 5)
+  
+  1. partition(0, 5, 2)
+  pivot값은 7로 선택합니다.
+  [7, 4, 9, 2, 8, 5] 에서 pivot값 7을 기준으로 작은 값은 왼쪽으로 큰 값은 오른쪽으로 이동합니다.
+  i = 1, j = 0
+  • S[1] = 4 < pivot값 7: j를 증가시키고 S[1]과 S[0]을 swap합니다. [4, 7, 9, 2, 8, 5]
+  • i = 2, j = 1
+  • S[2] = 9 > pivot값 7: j를 그대로 둡니다.
+  • i = 3, j = 1
+  • S[3] = 2 < pivot값 7: j를 증가시키고 S[3]과 S[1]을 swap합니다. [4, 2, 9, 7, 8, 5]
+  • i = 4, j = 2
+  • S[4] = 8 > pivot값 7: j를 그대로 둡니다.
+  • i = 5, j = 2
+  • S[5] = 5 < pivot값 7: j를 증가시키고 S[5]와 S[2]를 swap합니다. [4, 2, 5, 7, 8, 9]
+  
+  2. quicksort(0, 1)
+  [4, 2, 5, 7, 8, 9]에서 인덱스 0부터 1까지 정렬합니다.
+  
+  3. quicksort(3, 5)
+  [4, 2, 5, 7, 8, 9]에서 인덱스 3부터 5까지 정렬합니다.
+  정렬 결과: [2, 4, 5, 7, 8, 9]
